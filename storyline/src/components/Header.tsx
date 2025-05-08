@@ -16,13 +16,14 @@ const Header = () => {
   const handleKeyDown = (e: { key: string; }) => {
     if (e.key === 'Enter') handleSearch();
   };
+
   return (
     <header className='header'>
       <img src={logo} alt='Logo' className='logo' />
 
       <div className='search-bar'>
         <input type='text' placeholder='Search all books...' value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleKeyDown}/>
-        <button className='search-button'>
+        <button className='search-button' onClick={handleSearch}>
           <FaArrowRight />
         </button>
       </div>
