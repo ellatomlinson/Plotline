@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800;900&display=swap');
 
 :root {
   font-family: 'Poppins', sans-serif;
@@ -26,6 +26,8 @@ a:hover {
 body {
   min-width: 320px;
   min-height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
