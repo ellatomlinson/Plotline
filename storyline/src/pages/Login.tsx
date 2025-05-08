@@ -1,14 +1,21 @@
 import '../css/App.css'
 import bwlogo from '../assets/bwlogo.png'
 import { useGoogleLogin } from '@react-oauth/google'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+  const navigate = useNavigate()
+
+  // Have the user login with their Google account
   const login = useGoogleLogin({
-    onSuccess: tokenResponse => {
+    onSuccess: (tokenResponse) => {
       console.log(tokenResponse)
       localStorage.setItem('access_token', tokenResponse.access_token)
+
+      // Navigate to /dashboard after a successful login
+      navigate('/dashboard')
     },
-    onError: error => {
+    onError: (error) => {
       console.error('Login Failed:', error)
     }
   })
@@ -28,7 +35,9 @@ function Login() {
       <div className='login-panel'>
         <div className='login-content'>
           <p className='welcome-text'>Sign in with your Google account</p>
-          <button className='signin-button' onClick={() => login()}>Sign In</button>
+          <button className='signin-button' onClick={() => login()}>
+            Sign In
+          </button>
         </div>
       </div>
     </div>
