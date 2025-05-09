@@ -1,9 +1,11 @@
 import { FaXmark } from 'react-icons/fa6'
+import type { GoogleBooksApiResponse } from '../types'
+import SearchResultsTable from './SearchResultsTable'
 
 interface SearchResultsModalProps {
   readonly isOpen: boolean
   readonly onClose: () => void
-  readonly results: string[]
+  readonly results: GoogleBooksApiResponse
   readonly query: string
 }
 
@@ -17,8 +19,6 @@ function SearchResultsModal({
     return null
   }
 
-  console.log(results)
-
   return (
     <div className='modal-backdrop'>
       <div className='search-modal'>
@@ -26,6 +26,7 @@ function SearchResultsModal({
         <button className='close-button' onClick={onClose}>
           <FaXmark />
         </button>
+        <SearchResultsTable results={results} />
       </div>
     </div>
   )
