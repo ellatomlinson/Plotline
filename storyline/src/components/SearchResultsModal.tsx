@@ -1,22 +1,41 @@
 import { FaXmark } from 'react-icons/fa6'
 import type { GoogleBooksApiResponse } from '../types'
 import SearchResultsTable from './SearchResultsTable'
+import { useState } from 'react'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 interface SearchResultsModalProps {
   readonly isOpen: boolean
   readonly onClose: () => void
   readonly results: GoogleBooksApiResponse
   readonly query: string
+  readonly onPaginate: (startIndex: number) => void
 }
 
 function SearchResultsModal({
   isOpen,
   onClose,
   results,
-  query
+  query,
+  onPaginate
 }: SearchResultsModalProps) {
+  const [page, setPage] = useState(0)
+  const resultsPerPage = 10
+
   if (!isOpen) {
     return null
+  }
+
+  const handleNext = () => {
+    const newPage = page + 1
+    setPage(newPage)
+    onPaginate(newPage * resultsPerPage)
+  }
+
+  const handlePrev = () => {
+    const newPage = Math.max(0, page - 1)
+    setPage(newPage)
+    onPaginate(newPage * resultsPerPage)
   }
 
   return (
@@ -27,6 +46,28 @@ function SearchResultsModal({
           <FaXmark />
         </button>
         <SearchResultsTable results={results} />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '1rem'
+          }}
+        >
+          <button
+            className='prev-button'
+            onClick={handlePrev}
+            disabled={page === 0}
+          >
+            <FaChevronLeft style={{ paddingTop: '0.3rem' }} />
+          </button>
+          <button
+            className='next-button'
+            onClick={handleNext}
+            disabled={results.totalItems <= (page + 1) * resultsPerPage}
+          >
+            <FaChevronRight style={{ paddingTop: '0.3rem' }} />
+          </button>
+        </div>
       </div>
     </div>
   )

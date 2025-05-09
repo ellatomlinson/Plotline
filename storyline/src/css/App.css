@@ -190,6 +190,52 @@
   overflow: hidden; /* prevent it from scrolling itself */
 }
 
+.prev-button {
+  background: #000000;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.75rem;
+}
+.prev-button:focus,
+.prev-button:hover {
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #1e1e1e;
+}
+.prev-button:disabled {
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  cursor: default;
+}
+
+.next-button {
+  background: #000000;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.75rem;
+}
+.next-button:focus,
+.next-button:hover {
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #1e1e1e;
+}
+.next-button:disabled {
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  cursor: default;
+}
+
 .close-button {
   position: absolute;
   top: 1rem;

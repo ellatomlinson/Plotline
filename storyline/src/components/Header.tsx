@@ -5,6 +5,8 @@ import { useState } from 'react'
 import SearchResultsModal from './SearchResultsModal'
 import type { GoogleBooksApiResponse } from '../types'
 
+const FIRST = 0
+
 const Header = () => {
   const [query, setQuery] = useState('')
   const [searchResultsModalOpen, setSearchResultsModalOpen] =
@@ -18,11 +20,13 @@ const Header = () => {
   }
 
   // Search for books using the Google Books API
-  const handleSearch = async () => {
+  const handleSearch = async (startIndex = FIRST) => {
     if (!query) return
     try {
       const result = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&fields=items(volumeInfo,accessInfo)`
+        `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
+          query
+        )}&startIndex=${startIndex}&maxResults=10&fields=totalItems,items(volumeInfo,accessInfo)`
       )
       const books: GoogleBooksApiResponse = await result.json()
       setBooks(books)
@@ -50,7 +54,7 @@ const Header = () => {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button className='search-button' onClick={handleSearch}>
+          <button className='search-button' onClick={() => handleSearch()}>
             <FaArrowRight />
           </button>
         </div>
@@ -63,6 +67,7 @@ const Header = () => {
           results={books}
           onClose={onSearchResultsModalClose}
           query={query}
+          onPaginate={handleSearch}
         />
       )}
     </>

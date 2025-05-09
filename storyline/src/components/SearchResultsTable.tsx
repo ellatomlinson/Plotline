@@ -6,7 +6,6 @@ interface SearchResultsTableProps {
 }
 
 function SearchResultsTable({ results }: SearchResultsTableProps) {
-  console.log(results)
   return (
     <div className='book-tiles-container'>
       {results.items.map((book, index) => (

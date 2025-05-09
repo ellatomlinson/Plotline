@@ -20,5 +20,6 @@ export type Book = {
 }
 
 export type GoogleBooksApiResponse = {
+  totalItems: number
   items: Book[]
 }
