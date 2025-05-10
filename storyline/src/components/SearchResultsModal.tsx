@@ -22,7 +22,7 @@ function SearchResultsModal({
 }: SearchResultsModalProps) {
   const [page, setPage] = useState(0)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
-  
+
   const resultsPerPage = 10
 
   if (!isOpen) {
@@ -48,7 +48,10 @@ function SearchResultsModal({
         <button className='close-button' onClick={onClose}>
           <FaXmark />
         </button>
-        <SearchResultsTable results={results} setSelectedBook={setSelectedBook} />
+        <SearchResultsTable
+          results={results}
+          setSelectedBook={setSelectedBook}
+        />
         <div
           style={{
             display: 'flex',
@@ -73,8 +76,8 @@ function SearchResultsModal({
         </div>
       </div>
       {selectedBook && (
-            <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
-          )}
+        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+      )}
     </div>
   )
 }

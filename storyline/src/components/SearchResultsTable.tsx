@@ -6,13 +6,18 @@ interface SearchResultsTableProps {
   readonly setSelectedBook: (book: Book) => void
 }
 
-function SearchResultsTable({ results, setSelectedBook }: SearchResultsTableProps) {
-
-
+function SearchResultsTable({
+  results,
+  setSelectedBook
+}: SearchResultsTableProps) {
   return (
     <div className='book-tiles-container'>
       {results.items.map((book, index) => (
-        <BookTile key={index} book={book} onClick={() => setSelectedBook(book)} />
+        <BookTile
+          key={index}
+          book={book}
+          onClick={() => setSelectedBook(book)}
+        />
       ))}
     </div>
   )

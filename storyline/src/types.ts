@@ -13,6 +13,7 @@ export type Book = {
       thumbnail?: string
     }
     infoLink?: string
+    pageCount?: number
   }
   accessInfo: {
     webReaderLink?: string
