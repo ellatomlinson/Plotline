@@ -3,12 +3,13 @@ import { processDescription } from '../utils'
 
 interface BookTileProps {
   readonly book: Book
+  readonly onClick: () => void
 }
 
-function BookTile({ book }: BookTileProps) {
+function BookTile({ book, onClick }: BookTileProps) {
   const { title, authors, description, imageLinks } = book.volumeInfo
   return (
-    <div className='book-tile-container'>
+    <div className='book-tile-container' onClick={onClick}>
       <div className='book-cover-container'>
         <img
           src={imageLinks?.thumbnail || 'fallback-image.jpg'}

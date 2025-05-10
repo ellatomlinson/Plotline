@@ -2,6 +2,9 @@ export type Book = {
   volumeInfo: {
     title: string
     authors?: string[]
+    averageRating?: number
+    ratingsCount?: number
+    categories?: string[]
     publisher?: string
     publishedDate?: string
     description?: string

@@ -1,8 +1,9 @@
 import { FaXmark } from 'react-icons/fa6'
-import type { GoogleBooksApiResponse } from '../types'
+import type { Book, GoogleBooksApiResponse } from '../types'
 import SearchResultsTable from './SearchResultsTable'
 import { useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import BookModal from './BookModal'
 
 interface SearchResultsModalProps {
   readonly isOpen: boolean
@@ -20,6 +21,8 @@ function SearchResultsModal({
   onPaginate
 }: SearchResultsModalProps) {
   const [page, setPage] = useState(0)
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  
   const resultsPerPage = 10
 
   if (!isOpen) {
@@ -45,7 +48,7 @@ function SearchResultsModal({
         <button className='close-button' onClick={onClose}>
           <FaXmark />
         </button>
-        <SearchResultsTable results={results} />
+        <SearchResultsTable results={results} setSelectedBook={setSelectedBook} />
         <div
           style={{
             display: 'flex',
@@ -69,6 +72,9 @@ function SearchResultsModal({
           </button>
         </div>
       </div>
+      {selectedBook && (
+            <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+          )}
     </div>
   )
 }
