@@ -7,7 +7,8 @@ interface BookModalProps {
 }
 
 function BookModal({ book, onClose }: BookModalProps) {
-  const { title, imageLinks, authors, categories, pageCount, description } = book.volumeInfo
+  const { title, imageLinks, authors, categories, pageCount, description } =
+    book.volumeInfo
 
   const renderStars = (rating: number | undefined) => {
     if (!rating) return 'No rating'

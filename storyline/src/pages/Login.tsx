@@ -1,24 +1,34 @@
 import '../css/App.css'
 import bwlogo from '../assets/bwlogo.png'
-import { useGoogleLogin } from '@react-oauth/google'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../supabase'
+import { useEffect } from 'react'
+import type { Session } from '@supabase/supabase-js'
 
 function Login() {
   const navigate = useNavigate()
 
   // Have the user login with their Google account
-  const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      console.log(tokenResponse)
-      localStorage.setItem('access_token', tokenResponse.access_token)
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    })
 
-      // Navigate to /dashboard after a successful login
-      navigate('/dashboard')
-    },
-    onError: (error) => {
-      console.error('Login Failed:', error)
-    }
-  })
+    if (error) console.error('Error logging in:', error)
+  }
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) navigate('/dashboard')
+    })
+  
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session: Session | null) => {
+      if (session) navigate('/dashboard')
+    })
+  
+    return () => listener.subscription.unsubscribe()
+  }, [])
+
 
   return (
     <div className='login-container'>
@@ -35,7 +45,7 @@ function Login() {
       <div className='login-panel'>
         <div className='login-content'>
           <p className='welcome-text'>Sign in with your Google account</p>
-          <button className='signin-button' onClick={() => login()}>
+          <button className='signin-button' onClick={handleLogin}>
             Sign In
           </button>
         </div>

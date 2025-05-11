@@ -28,3 +28,8 @@ dist-ssr
 .env.local
 .env.*.local
 *.env
+
+
+# Supabase config
+.supabase/
+.supabase/**
