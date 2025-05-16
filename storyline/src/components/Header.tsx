@@ -4,6 +4,8 @@ import { FaArrowRight } from 'react-icons/fa'
 import { useState } from 'react'
 import SearchResultsModal from './SearchResultsModal'
 import type { GoogleBooksApiResponse } from '../types'
+import { supabase } from '../../supabase'
+import { useNavigate } from 'react-router-dom'
 
 const FIRST = 0
 
@@ -12,6 +14,7 @@ const Header = () => {
   const [searchResultsModalOpen, setSearchResultsModalOpen] =
     useState<boolean>(false)
   const [books, setBooks] = useState<GoogleBooksApiResponse>()
+  const navigate = useNavigate()
 
   function onSearchResultsModalClose(): void {
     setSearchResultsModalOpen(false)
@@ -41,25 +44,43 @@ const Header = () => {
     if (e.key === 'Enter') handleSearch()
   }
 
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      alert('Failed to sign out. Please refresh the page and try again.')
+      console.error('Error signing out:', error)
+    } else {
+      navigate('/')
+    }
+  }
+
   return (
     <>
       <header className='header'>
-        <img src={logo} alt='Logo' className='logo' />
-
-        <div className='search-bar'>
-          <input
-            type='text'
-            placeholder='Search all books...'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <button className='search-button' onClick={() => handleSearch()}>
-            <FaArrowRight />
-          </button>
+        <div className='header-section'>
+          <img src={logo} alt='Logo' className='logo' />
         </div>
 
-        <div className='header-actions'></div>
+        <div className='search-wrapper'>
+          <div className='search-bar'>
+            <input
+              type='text'
+              placeholder='Search all books...'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button className='search-button' onClick={() => handleSearch()}>
+              <FaArrowRight />
+            </button>
+          </div>
+        </div>
+
+        <div className='header-section'>
+          <button className='sign-out-button' onClick={() => handleSignOut()}>
+            Sign Out
+          </button>
+        </div>
       </header>
       {books && (
         <SearchResultsModal
