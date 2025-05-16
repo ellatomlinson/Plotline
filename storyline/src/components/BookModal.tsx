@@ -1,5 +1,6 @@
 import { FaXmark } from 'react-icons/fa6'
 import type { Book } from '../types'
+import { useState } from 'react'
 
 interface BookModalProps {
   readonly book: Book
@@ -7,6 +8,9 @@ interface BookModalProps {
 }
 
 function BookModal({ book, onClose }: BookModalProps) {
+  const [selectedStatus, setSelectedStatus] = useState('')
+  const [isChanged, setIsChanged] = useState(false)
+
   const { title, imageLinks, authors, categories, pageCount, description } =
     book.volumeInfo
 
@@ -58,9 +62,30 @@ function BookModal({ book, onClose }: BookModalProps) {
                 {renderStars(book.volumeInfo.averageRating)}
               </span>
             </p>
+            <p className='book-modal-stat-field'>
+              <span className='book-modal-stat-label'>Status:</span>{' '}
+              <select
+                className='book-modal-dropdown'
+                value={selectedStatus}
+                onChange={(e) => {
+                  setSelectedStatus(e.target.value)
+                  setIsChanged(e.target.value !== '') // or compare to initial value
+                }}
+              >
+                <option value=''>Select Status</option>
+                <option value='want-to-read'>Reading List</option>
+                <option value='currently-reading'>Currently Reading</option>
+                <option value='finished'>Finished</option>
+                <option value='did-not-finish'>Did Not Finish</option>
+                <option value='remove'>Remove Book</option>
+              </select>
+            </p>
           </div>
         </div>
         <p className='book-modal-description-container'>{description}</p>
+        <button className='book-modal-save-button' disabled={!isChanged}>
+          Save
+        </button>
       </div>
     </div>
   )

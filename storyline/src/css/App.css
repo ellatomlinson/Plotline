@@ -523,6 +523,50 @@
   line-height: 1.5;
 }
 
+.book-modal-dropdown {
+  font-size: 1rem;
+  padding: 0rem 0.4rem;
+  border-radius: 8px;
+  border: 1px solid rgb(209, 209, 214);
+  background-color: #fff;
+  color: #000;
+  font-family: inherit;
+}
+.book-modal-dropdown:focus {
+  outline: none;
+  border-color: #000;
+  background-color: #fff;
+}
+
+.book-modal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #000000;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.8rem;
+}
+
+.book-modal-save-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.book-modal-save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Dashboard */
 .dashboard-container {
   display: flex;
