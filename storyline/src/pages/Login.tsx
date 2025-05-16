@@ -11,7 +11,7 @@ function Login() {
   // Have the user login with their Google account
   const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider: 'google'
     })
 
     if (error) console.error('Error logging in:', error)
@@ -21,14 +21,15 @@ function Login() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) navigate('/dashboard')
     })
-  
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session: Session | null) => {
-      if (session) navigate('/dashboard')
-    })
-  
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (event, session: Session | null) => {
+        if (session) navigate('/dashboard')
+      }
+    )
+
     return () => listener.subscription.unsubscribe()
   }, [])
-
 
   return (
     <div className='login-container'>

@@ -1,5 +1,7 @@
 #root {
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   text-align: center;
   align-items: center;
 }
@@ -7,7 +9,6 @@
 /* Header component */
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin: 0 auto;
   padding: 1rem 0.5rem;
@@ -166,7 +167,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.45);
   position: fixed;
   z-index: 1000;
   display: flex;
@@ -500,4 +501,161 @@
   hyphens: auto;
   margin: 1rem;
   line-height: 1.5;
+}
+
+/* Dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: black 1px solid;
+  border-radius: 25px;
+  width: 80vw;
+  margin: 4rem;
+}
+
+/* Reading goal tile */
+.reading-goal-container {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 25px;
+  width: 25%;
+  height: 45%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.reading-goal-text {
+  font-size: 1rem;
+  font-weight: 25;
+}
+
+/* Reading goal setting modal */
+.goal-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.goal-modal-container {
+  background-color: #ffffff;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2001;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+}
+
+.goal-modal-title {
+  font-size: 1.25rem;
+  font-weight: 25;
+  margin-bottom: 1rem;
+}
+
+.goal-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.goal-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.goal-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.goal-button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.goal-input {
+  width: 4rem;
+  text-align: center;
+  font-size: 1.25rem;
+  font-family: inherit;
+  padding: 0.25rem;
+  border: 1px solid #000;
+  border-radius: 20px;
+}
+.goal-input::-webkit-outer-spin-button,
+.goal-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.save-goal-button {
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
+.save-goal-button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.goal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+  padding: 0;
+}
+.goal-close-button:hover,
+.goal-close-button:focus {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  outline: none;
 }
