@@ -590,7 +590,6 @@
   }
 }
 
-
 /* Dashboard */
 .dashboard-container {
   display: flex;
@@ -607,6 +606,8 @@
 /* Reading goal tile */
 .reading-goal-container {
   align-items: center;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 2rem;
   border: 1px solid rgb(209, 209, 214);

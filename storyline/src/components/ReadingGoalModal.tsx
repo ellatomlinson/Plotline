@@ -4,10 +4,17 @@ import { upsertReadingGoal } from '../dbUtils'
 interface ReadingGoalModalProps {
   readonly isOpen: boolean
   readonly onClose: () => void
+  readonly setGoal: (goal: number) => void
+  readonly goal: number
 }
 
-function ReadingGoalModal({ isOpen, onClose }: ReadingGoalModalProps) {
-  const [goal, setGoal] = useState(1)
+function ReadingGoalModal({
+  isOpen,
+  onClose,
+  setGoal,
+  goal
+}: ReadingGoalModalProps) {
+  const [newGoal, setNewGoal] = useState<number>(goal)
   if (!isOpen) {
     return null
   }
@@ -19,13 +26,14 @@ function ReadingGoalModal({ isOpen, onClose }: ReadingGoalModalProps) {
     }
   }
 
-  const increment = () => setGoal((prev) => prev + 1)
-  const decrement = () => setGoal((prev) => (prev > 0 ? prev - 1 : 0))
+  const increment = () => setNewGoal(newGoal + 1)
+  const decrement = () => setNewGoal(newGoal > 0 ? newGoal - 1 : 0)
 
   const handleSaveGoal = async () => {
-    const success = await upsertReadingGoal(goal)
+    const success = await upsertReadingGoal(newGoal)
     if (success) {
       onClose()
+      setGoal(newGoal)
     } else {
       alert(
         'Failed to save reading goal. Please refresh the page and try again.'
@@ -47,7 +55,7 @@ function ReadingGoalModal({ isOpen, onClose }: ReadingGoalModalProps) {
             </button>
             <input
               type='number'
-              value={goal}
+              value={newGoal}
               onChange={handleChange}
               className='goal-input'
               min={0}

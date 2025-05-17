@@ -1,6 +1,29 @@
 import { supabase } from '../supabase'
 import type { ReadingStatus } from './types'
 
+export async function getReadingGoal(): Promise<number | null> {
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+  if (!user) {
+    console.error('User not logged in.')
+    return null
+  }
+
+  const { data: existing, error: fetchError } = await supabase
+    .from('user_reading_goals')
+    .select('goal')
+    .eq('user_id', user.id)
+    .single()
+
+  if (fetchError) {
+    console.error('Failed to fetch existing goal', fetchError.message)
+    return null
+  }
+
+  return existing?.goal ?? null
+}
+
 export async function upsertReadingGoal(newGoal: number): Promise<boolean> {
   const {
     data: { user }
@@ -105,4 +128,29 @@ export async function getBookStatus(bookId: string): Promise<string | null> {
   }
 
   return data?.status ?? null
+}
+
+export async function getReadBooks() {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('User not logged in.', authError)
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('reading_status')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('status', 'read')
+
+  if (error) {
+    console.error('Error fetching read books:', error.message)
+    return []
+  }
+
+  return data
 }
