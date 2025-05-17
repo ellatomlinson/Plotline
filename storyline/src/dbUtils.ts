@@ -1,6 +1,7 @@
 import { supabase } from '../supabase'
 import type { ReadingStatus } from './types'
 
+// Fetch users reading goal
 export async function getReadingGoal(): Promise<number | null> {
   const {
     data: { user }
@@ -24,6 +25,7 @@ export async function getReadingGoal(): Promise<number | null> {
   return existing?.goal ?? null
 }
 
+// Update or create the users reading goal
 export async function upsertReadingGoal(newGoal: number): Promise<boolean> {
   const {
     data: { user }
@@ -63,6 +65,7 @@ export async function upsertReadingGoal(newGoal: number): Promise<boolean> {
   }
 }
 
+// Save the users reading status for a book
 export async function saveBook(
   bookId: string,
   newStatus: ReadingStatus
@@ -106,6 +109,7 @@ export async function saveBook(
   return true
 }
 
+// Fetch the users reading status for a book
 export async function getBookStatus(bookId: string): Promise<string | null> {
   const user = await supabase.auth.getUser()
   const userId = user.data.user?.id
@@ -130,6 +134,7 @@ export async function getBookStatus(bookId: string): Promise<string | null> {
   return data?.status ?? null
 }
 
+// Fetch all the books marked as read by the user
 export async function getReadBooks() {
   const {
     data: { user },
