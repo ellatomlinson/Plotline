@@ -29,9 +29,10 @@ const Header = () => {
       const result = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
           query
-        )}&startIndex=${startIndex}&maxResults=10&fields=totalItems,items(volumeInfo,accessInfo)`
+        )}&startIndex=${startIndex}&maxResults=10&fields=totalItems,items(id,volumeInfo,accessInfo)`
       )
       const books: GoogleBooksApiResponse = await result.json()
+
       setBooks(books)
       setSearchResultsModalOpen(true)
     } catch (error) {

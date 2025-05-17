@@ -1,4 +1,5 @@
 export type Book = {
+  id: string
   volumeInfo: {
     title: string
     authors?: string[]
@@ -26,4 +27,12 @@ export type Book = {
 export type GoogleBooksApiResponse = {
   totalItems: number
   items: Book[]
+}
+
+export enum ReadingStatus {
+  CURRENTLY_READING = 'currently_reading',
+  READ = 'read',
+  READING_LIST = 'reading_list',
+  REMOVE = 'remove',
+  DID_NOT_FINISH = 'did_not_finish'
 }
