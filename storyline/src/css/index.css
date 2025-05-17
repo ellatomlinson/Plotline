@@ -5,7 +5,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: #1e1e1e;
+  color: #000;
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -42,17 +42,17 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1e1e1e;
+  background-color: #000;
   color: #ffffff;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #1e1e1e;
+  border-color: #000;
   background-color: #ffffff;
-  color: #1e1e1e;
+  color: #000;
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto #1e1e1e;
+  outline: 4px auto #000;
 }

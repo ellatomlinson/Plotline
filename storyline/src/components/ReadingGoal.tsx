@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import ReadingGoalModal from './ReadingGoalModal'
 import { getReadBooks, getReadingGoal } from '../dbUtils'
+import DonutChart from './DonutChart'
 
 function ReadingGoal() {
   const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
@@ -41,9 +42,15 @@ function ReadingGoal() {
         {isLoading ? (
           <div className='spinner' />
         ) : (
-          <p className='reading-goal-progress-text'>
-            {booksRead} of {goal}
-          </p>
+          <>
+            <DonutChart
+              percentage={goal > 0 ? Math.round((booksRead / goal) * 100) : 0}
+            />
+
+            <p className='reading-goal-progress-text'>
+              {booksRead} of {goal} books read
+            </p>
+          </>
         )}
       </div>
       <ReadingGoalModal

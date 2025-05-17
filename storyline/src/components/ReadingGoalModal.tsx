@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { upsertReadingGoal } from '../dbUtils'
 
 interface ReadingGoalModalProps {
@@ -15,6 +15,13 @@ function ReadingGoalModal({
   goal
 }: ReadingGoalModalProps) {
   const [newGoal, setNewGoal] = useState<number>(goal)
+
+  useEffect(() => {
+    if (isOpen) {
+      setNewGoal(goal)
+    }
+  }, [goal, isOpen])
+
   if (!isOpen) {
     return null
   }

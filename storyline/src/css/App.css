@@ -17,8 +17,8 @@
   position: sticky;
   top: 0;
   width: 100%;
-  max-width: 100vw; /* ✅ Prevents overflow */
-  box-sizing: border-box; /* ✅ Includes padding in width */
+  max-width: 100vw;
+  box-sizing: border-box;
   z-index: 10;
 }
 
@@ -54,12 +54,12 @@
   width: 100%;
   border: 1px solid rgb(209, 209, 214);
   border-radius: 100px;
-  color: #1e1e1e;
+  color: #000;
   font-family: inherit;
 }
 
 .search-button {
-  background: #1e1e1e;
+  background: #000;
   border: none;
   cursor: pointer;
   color: #ffffff;
@@ -78,7 +78,7 @@
 
 .search-button:focus,
 .search-button:hover {
-  border: 1px solid #1e1e1e;
+  border: 1px solid #000;
   background-color: #ffffff;
   color: #1e1e1e;
 }
@@ -225,7 +225,7 @@
 .prev-button:hover {
   border: 1px solid #000000;
   background-color: #ffffff;
-  color: #1e1e1e;
+  color: #000;
 }
 .prev-button:disabled {
   border: 1px solid #000000;
@@ -571,7 +571,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px; /* or 100% */
+  height: 400px;
   width: 100%;
 }
 
@@ -609,7 +609,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   border: 1px solid rgb(209, 209, 214);
   border-radius: 25px;
   width: 25%;
@@ -621,7 +624,7 @@
 }
 
 .reading-goal-text {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 25;
 }
 
