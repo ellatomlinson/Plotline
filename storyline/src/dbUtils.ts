@@ -24,7 +24,7 @@ export async function upsertReadingGoal(newGoal: number): Promise<boolean> {
   const payload = {
     user_id: user.id,
     goal: newGoal,
-    ...(existing ? { id: existing.id } : {}) // Include `id` if updating
+    ...(existing ? { id: existing.id } : {})
   }
 
   const { error } = await supabase
@@ -81,4 +81,28 @@ export async function saveBook(
     }
   }
   return true
+}
+
+export async function getBookStatus(bookId: string): Promise<string | null> {
+  const user = await supabase.auth.getUser()
+  const userId = user.data.user?.id
+
+  if (!userId) {
+    console.error('User not logged in.')
+    return null
+  }
+
+  const { data, error } = await supabase
+    .from('reading_status')
+    .select('status')
+    .eq('user_id', userId)
+    .eq('google_book_id', bookId)
+    .single()
+
+  if (error) {
+    console.error('Failed to fetch book status:', error.message)
+    return null
+  }
+
+  return data?.status ?? null
 }

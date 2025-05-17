@@ -567,6 +567,30 @@
   cursor: not-allowed;
 }
 
+.book-modal-spinner-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; /* or 100% */
+  width: 100%;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #fff;
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Dashboard */
 .dashboard-container {
   display: flex;

@@ -1,7 +1,7 @@
 import { FaXmark } from 'react-icons/fa6'
 import type { Book } from '../types'
-import { useState } from 'react'
-import { saveBook } from '../dbUtils'
+import { useEffect, useState } from 'react'
+import { getBookStatus, saveBook } from '../dbUtils'
 import { stringToReadingStatus } from '../utils'
 
 interface BookModalProps {
@@ -11,6 +11,7 @@ interface BookModalProps {
 
 function BookModal({ book, onClose }: BookModalProps) {
   const [selectedStatus, setSelectedStatus] = useState('')
+  const [loadingStatus, setLoadingStatus] = useState(true)
   const [isChanged, setIsChanged] = useState(false)
 
   const { title, imageLinks, authors, categories, pageCount, description } =
@@ -31,6 +32,19 @@ function BookModal({ book, onClose }: BookModalProps) {
     )
   }
 
+  useEffect(() => {
+    async function loadStatus() {
+      setLoadingStatus(true)
+      const existingStatus = await getBookStatus(book.id)
+      if (existingStatus) {
+        setSelectedStatus(existingStatus)
+      }
+      setLoadingStatus(false)
+    }
+
+    loadStatus()
+  }, [book.id])
+
   const handleSave = async () => {
     if (selectedStatus) {
       const success = await saveBook(
@@ -47,66 +61,72 @@ function BookModal({ book, onClose }: BookModalProps) {
 
   return (
     <div className='book-modal-backdrop'>
-      <div className='book-modal-container'>
-        <button className='book-modal-close-button' onClick={onClose}>
-          <FaXmark />
-        </button>
-        <div className='book-modal-info-card-container'>
-          <div className='book-modal-cover-container'>
-            <img
-              src={imageLinks?.thumbnail || 'fallback-image.jpg'}
-              alt={title}
-              className='book-modal-cover'
-            />
-          </div>
-          <div className='book-modal-text'>
-            <h3 className='book-modal-title'>{title}</h3>
-            <h3 className='book-modal-author'>{authors?.join(', ')}</h3>
-            <p className='book-modal-stat-field'>
-              <span className='book-modal-stat-label'>Genres:</span>{' '}
-              <span className='book-modal-stat-value'>
-                {categories?.join(', ')}
-              </span>
-            </p>
-            <p className='book-modal-stat-field'>
-              <span className='book-modal-stat-label'>Page Count:</span>{' '}
-              <span className='book-modal-stat-value'>{pageCount}</span>
-            </p>
-            <p className='book-modal-stat-field'>
-              <span className='book-modal-stat-label'>Rating:</span>{' '}
-              <span className='book-modal-stat-value'>
-                {renderStars(book.volumeInfo.averageRating)}
-              </span>
-            </p>
-            <p className='book-modal-stat-field'>
-              <span className='book-modal-stat-label'>Status:</span>{' '}
-              <select
-                className='book-modal-dropdown'
-                value={selectedStatus}
-                onChange={(e) => {
-                  setSelectedStatus(e.target.value)
-                  setIsChanged(e.target.value !== '')
-                }}
-              >
-                <option value=''>Select Status</option>
-                <option value='reading_list'>Reading List</option>
-                <option value='currently_reading'>Currently Reading</option>
-                <option value='read'>Read</option>
-                <option value='did_not_finish'>Did Not Finish</option>
-                <option value='remove'>Remove Book</option>
-              </select>
-            </p>
-          </div>
+      {loadingStatus ? (
+        <div className='book-modal-spinner-overlay'>
+          <div className='spinner'></div>
         </div>
-        <p className='book-modal-description-container'>{description}</p>
-        <button
-          className='book-modal-save-button'
-          onClick={handleSave}
-          disabled={!isChanged}
-        >
-          Save
-        </button>
-      </div>
+      ) : (
+        <div className='book-modal-container'>
+          <button className='book-modal-close-button' onClick={onClose}>
+            <FaXmark />
+          </button>
+          <div className='book-modal-info-card-container'>
+            <div className='book-modal-cover-container'>
+              <img
+                src={imageLinks?.thumbnail || 'fallback-image.jpg'}
+                alt={title}
+                className='book-modal-cover'
+              />
+            </div>
+            <div className='book-modal-text'>
+              <h3 className='book-modal-title'>{title}</h3>
+              <h3 className='book-modal-author'>{authors?.join(', ')}</h3>
+              <p className='book-modal-stat-field'>
+                <span className='book-modal-stat-label'>Genres:</span>{' '}
+                <span className='book-modal-stat-value'>
+                  {categories?.join(', ')}
+                </span>
+              </p>
+              <p className='book-modal-stat-field'>
+                <span className='book-modal-stat-label'>Page Count:</span>{' '}
+                <span className='book-modal-stat-value'>{pageCount}</span>
+              </p>
+              <p className='book-modal-stat-field'>
+                <span className='book-modal-stat-label'>Rating:</span>{' '}
+                <span className='book-modal-stat-value'>
+                  {renderStars(book.volumeInfo.averageRating)}
+                </span>
+              </p>
+              <p className='book-modal-stat-field'>
+                <span className='book-modal-stat-label'>Status:</span>{' '}
+                <select
+                  className='book-modal-dropdown'
+                  value={selectedStatus}
+                  onChange={(e) => {
+                    setSelectedStatus(e.target.value)
+                    setIsChanged(e.target.value !== '')
+                  }}
+                >
+                  <option value=''>Select Status</option>
+                  <option value='reading_list'>Reading List</option>
+                  <option value='currently_reading'>Currently Reading</option>
+                  <option value='read'>Read</option>
+                  <option value='did_not_finish'>Did Not Finish</option>
+                  <option value='remove'>Remove Book</option>
+                </select>
+              </p>
+            </div>
+          </div>
+          <p className='book-modal-description-container'>{description}</p>
+          <button
+            className='book-modal-save-button'
+            onClick={handleSave}
+            disabled={!isChanged}
+          >
+            Save
+          </button>
+        </div>
+      )}
     </div>
   )
 }
