@@ -1,3 +1,4 @@
+import CurrentlyReading from '../components/CurrentlyReading'
 import Header from '../components/Header'
 import ReadingGoal from '../components/ReadingGoal'
 
@@ -6,7 +7,9 @@ function Home() {
     <>
       <Header />
       <div className='dashboard-container'>
+        <CurrentlyReading />
         <ReadingGoal />
+        <CurrentlyReading />
       </div>
     </>
   )

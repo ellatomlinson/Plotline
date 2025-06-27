@@ -1,5 +1,5 @@
 import { supabase } from '../supabase'
-import type { ReadingStatus } from './types'
+import type { DbBook, ReadingStatus } from './types'
 
 // Fetch users reading goal
 export async function getReadingGoal(): Promise<number | null> {
@@ -154,6 +154,32 @@ export async function getReadBooks() {
 
   if (error) {
     console.error('Error fetching read books:', error.message)
+    return []
+  }
+
+  return data
+}
+
+// Fetch all the books marked as currently_reading by the user
+export async function getCurrentlyReadingBooks(): Promise<DbBook[]> {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('User not logged in.', authError)
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('reading_status')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('status', 'currently_reading')
+
+  if (error) {
+    console.error('Error fetching currently_reading books:', error.message)
     return []
   }
 

@@ -36,3 +36,12 @@ export enum ReadingStatus {
   REMOVE = 'remove',
   DID_NOT_FINISH = 'did_not_finish'
 }
+
+export type DbBook = {
+  id: number,
+  google_book_id: string,
+  created_at: string,
+  finished_reading: string,
+  status: ReadingStatus,
+  user_id: string
+}

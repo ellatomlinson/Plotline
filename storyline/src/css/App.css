@@ -593,14 +593,15 @@
 /* Dashboard */
 .dashboard-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  border: black 1px solid;
   border-radius: 25px;
   width: 80vw;
   margin: 4rem;
+  gap: 3rem;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Reading goal tile */
@@ -615,7 +616,7 @@
   padding-bottom: 0.75rem;
   border: 1px solid rgb(209, 209, 214);
   border-radius: 25px;
-  width: 25%;
+  width: 27%;
   height: 45%;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
@@ -750,4 +751,29 @@
   color: #fff;
   border: none;
   outline: none;
+}
+
+/* Currently reading tile */
+.currently-reading-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 25px;
+  width: 27%;
+  height: 45%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.currently-reading-text {
+  font-size: 1.15rem;
+  font-weight: 25;
 }
