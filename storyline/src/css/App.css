@@ -777,3 +777,15 @@
   font-size: 1.15rem;
   font-weight: 25;
 }
+
+.slider-wrapper {
+  width: 90%; /* or fixed width, e.g. 300px */
+  min-width: 300px; /* ensures enough room for 3 slides */
+  max-width: 100%; /* prevent overflow */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333;  /* or any visible color */
+  z-index: 10;
+}

@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { getCurrentlyReadingBooks } from '../dbUtils'
 import type { Book } from '../types'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation } from 'swiper/modules'
+import 'swiper/swiper-bundle.css'
 
 function CurrentlyReading() {
   const [isLoading, setIsLoading] = useState(true)
@@ -28,9 +31,57 @@ function CurrentlyReading() {
         {isLoading ? (
         <div className='spinner' />
       ) : booksReading.length === 0 ? (
-        <p style={{color: '#777'}}>No books currently being read.</p>
+        <p style={{ color: '#777' }}>No books currently being read.</p>
       ) : (
-        <p style={{color: '#777'}}>No books currently being read.</p>
+        <div className='slider-wrapper'>
+        <Swiper
+          modules={[Navigation]}
+          navigation={true}
+          spaceBetween={20}
+          slidesPerView={3}
+          breakpoints={{
+            480: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
+          style={{ padding: '1rem 0' }}
+        >
+          {booksReading.map((book) => {
+            const imgSrc = book.volumeInfo.imageLinks?.thumbnail
+            return (
+              <SwiperSlide key={book.id}>
+                {imgSrc ? (
+                  <img
+                    src={imgSrc}
+                    alt={book.volumeInfo.title}
+                    style={{
+                      width: 'auto',
+                      height: '165px',
+                      objectFit: 'cover',
+                      borderRadius: 4,
+                      display: 'block',
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: 'auto',
+                      height: '165px',
+                      backgroundColor: '#eee',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: 4,
+                    }}
+                  >
+                    No Cover
+                  </div>
+                )}
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+        </div>
       )}
       </div>
     </>
