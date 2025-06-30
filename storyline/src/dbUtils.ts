@@ -180,7 +180,10 @@ export async function getCurrentlyReadingBooks(): Promise<Book[]> {
     .eq('status', 'currently_reading')
 
   if (error) {
-    console.error('Error fetching currently_reading books from database:', error.message)
+    console.error(
+      'Error fetching currently_reading books from database:',
+      error.message
+    )
     return []
   }
 
@@ -188,6 +191,9 @@ export async function getCurrentlyReadingBooks(): Promise<Book[]> {
   const books = await Promise.allSettled(bookIds.map(getBookById))
 
   return books
-    .filter((result): result is PromiseFulfilledResult<Book> => result.status === 'fulfilled')
+    .filter(
+      (result): result is PromiseFulfilledResult<Book> =>
+        result.status === 'fulfilled'
+    )
     .map((result) => result.value)
 }
