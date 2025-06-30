@@ -1,5 +1,6 @@
 import { supabase } from '../supabase'
-import type { DbBook, ReadingStatus } from './types'
+import { getBookById } from './apiUtils'
+import type { Book, ReadingStatus } from './types'
 
 // Fetch users reading goal
 export async function getReadingGoal(): Promise<number | null> {
@@ -161,7 +162,7 @@ export async function getReadBooks() {
 }
 
 // Fetch all the books marked as currently_reading by the user
-export async function getCurrentlyReadingBooks(): Promise<DbBook[]> {
+export async function getCurrentlyReadingBooks(): Promise<Book[]> {
   const {
     data: { user },
     error: authError
@@ -174,14 +175,19 @@ export async function getCurrentlyReadingBooks(): Promise<DbBook[]> {
 
   const { data, error } = await supabase
     .from('reading_status')
-    .select('*')
+    .select('google_book_id')
     .eq('user_id', user.id)
     .eq('status', 'currently_reading')
 
   if (error) {
-    console.error('Error fetching currently_reading books:', error.message)
+    console.error('Error fetching currently_reading books from database:', error.message)
     return []
   }
 
-  return data
+  const bookIds = data.map((entry) => entry.google_book_id).filter(Boolean)
+  const books = await Promise.allSettled(bookIds.map(getBookById))
+
+  return books
+    .filter((result): result is PromiseFulfilledResult<Book> => result.status === 'fulfilled')
+    .map((result) => result.value)
 }

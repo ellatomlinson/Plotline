@@ -777,3 +777,10 @@
   font-size: 1.15rem;
   font-weight: 25;
 }
+
+.book-slide {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
