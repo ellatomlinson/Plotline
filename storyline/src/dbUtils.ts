@@ -197,3 +197,40 @@ export async function getCurrentlyReadingBooks(): Promise<Book[]> {
     )
     .map((result) => result.value)
 }
+
+// Fetch all the books marked as reading_list by the user
+export async function getReadingListBooks(): Promise<Book[]> {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('User not logged in.', authError)
+    return []
+  }
+
+  const { data, error } = await supabase
+    .from('reading_status')
+    .select('google_book_id')
+    .eq('user_id', user.id)
+    .eq('status', 'reading_list')
+
+  if (error) {
+    console.error(
+      'Error fetching reading_list books from database:',
+      error.message
+    )
+    return []
+  }
+
+  const bookIds = data.map((entry) => entry.google_book_id).filter(Boolean)
+  const books = await Promise.allSettled(bookIds.map(getBookById))
+
+  return books
+    .filter(
+      (result): result is PromiseFulfilledResult<Book> =>
+        result.status === 'fulfilled'
+    )
+    .map((result) => result.value)
+}
