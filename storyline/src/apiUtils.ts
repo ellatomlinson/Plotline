@@ -1,4 +1,5 @@
-import type { Book } from './types'
+import { getReadBooks } from './dbUtils'
+import type { Book, GoogleBooksApiResponse } from './types'
 
 export async function getBookById(bookId: string): Promise<Book> {
   const response = await fetch(
@@ -9,4 +10,65 @@ export async function getBookById(bookId: string): Promise<Book> {
   }
   const data = await response.json()
   return data
+}
+
+async function getSimilarBooks(book: Book, maxResults = 3): Promise<Book[]> {
+  const category = book.volumeInfo.categories?.[0]
+  const author = book.volumeInfo.authors?.[0]
+  const title = book.volumeInfo.title
+
+  // Fallback query based on most available data
+  const query = author
+    ? `inauthor:${encodeURIComponent(author)}`
+    : category
+      ? `subject:${encodeURIComponent(category)}`
+      : `intitle:${encodeURIComponent(title)}`
+
+  const response = await fetch(
+    `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=${maxResults + 3}`
+  )
+  if (!response.ok) {
+    console.error(`Failed to fetch similar books for: ${title}`)
+    return []
+  }
+
+  const data: GoogleBooksApiResponse = await response.json()
+
+  // Filter out the original book by ID to avoid recommending it again
+  const similar =
+    data.items?.filter((b) => b.id !== book.id).slice(0, maxResults) ?? []
+
+  return similar
+}
+
+export async function getRecommendationsFromReadBooks(): Promise<Book[]> {
+  // to-do, start with most recently read books
+  const readBooks = await getReadBooks()
+
+  const fullBooks = await Promise.allSettled(
+    readBooks.map((entry) => getBookById(entry.google_book_id))
+  )
+
+  const books = fullBooks
+    .filter(
+      (res): res is PromiseFulfilledResult<Book> => res.status === 'fulfilled'
+    )
+    .map((res) => res.value)
+
+  const allRecommendations = await Promise.all(
+    books.map((book) => getSimilarBooks(book, 3))
+  )
+
+  // Flatten nested arrays
+  const flatRecs = allRecommendations.flat()
+
+  const uniqueBookMap = new Map<string, Book>()
+  for (const rec of flatRecs) {
+    if (!uniqueBookMap.has(rec.id)) {
+      uniqueBookMap.set(rec.id, rec)
+    }
+  }
+
+  // Return array of unique recommendations
+  return Array.from(uniqueBookMap.values())
 }

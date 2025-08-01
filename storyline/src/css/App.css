@@ -593,7 +593,7 @@
 /* Dashboard */
 .dashboard-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem;
@@ -602,6 +602,14 @@
   margin: 4rem;
   gap: 3rem;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
 }
 
 /* Reading goal tile */
@@ -811,4 +819,31 @@
 .swiper-button-prev::after {
   font-size: 0.8rem !important;
   font-weight: bold !important;
+}
+
+/* Recommendations tile */
+.recommendations-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 25px;
+  width: 95%;
+  height: 45%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  background-color: #ffffff;
+  cursor: pointer;
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.slider-wrapper-recs {
+  min-width: 1210px;
+  max-width: 20%;
 }

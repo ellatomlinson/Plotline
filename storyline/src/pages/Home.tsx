@@ -2,15 +2,19 @@ import CurrentlyReading from '../components/CurrentlyReading'
 import Header from '../components/Header'
 import ReadingGoal from '../components/ReadingGoal'
 import ReadingList from '../components/ReadingList'
+import Recommendations from '../components/Recommendations'
 
 function Home() {
   return (
     <>
       <Header />
       <div className='dashboard-container'>
-        <CurrentlyReading />
-        <ReadingGoal />
-        <ReadingList />
+        <div className='dashboard-row'>
+          <CurrentlyReading />
+          <ReadingGoal />
+          <ReadingList />
+        </div>
+        <Recommendations />
       </div>
     </>
   )
