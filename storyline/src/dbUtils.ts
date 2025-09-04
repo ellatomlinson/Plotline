@@ -2,7 +2,7 @@ import { supabase } from '../supabase'
 import { getBookById } from './apiUtils'
 import type { Book, ReadingStatus } from './types'
 
-// Fetch users reading goal
+// Fetch user's reading goal
 export async function getReadingGoal(): Promise<number | null> {
   const {
     data: { user }

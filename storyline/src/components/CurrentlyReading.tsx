@@ -4,10 +4,12 @@ import type { Book } from '../types'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import 'swiper/swiper-bundle.css'
+import BookModal from './BookModal'
 
 function CurrentlyReading() {
   const [isLoading, setIsLoading] = useState(true)
   const [booksReading, setBooksReading] = useState<Book[]>([])
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
   // Fetch the books with a currently reading status
   const fetchData = useCallback(async () => {
@@ -60,8 +62,10 @@ function CurrentlyReading() {
                           objectFit: 'cover',
                           borderRadius: 4,
                           display: 'block',
-                          boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.1)'
+                          boxShadow: '4px 4px 12px rgba(127, 89, 89, 0.1)',
+                          cursor: 'pointer'
                         }}
+                        onClick={() => setSelectedBook(book)}
                       />
                     ) : (
                       <div
@@ -85,6 +89,9 @@ function CurrentlyReading() {
           </div>
         )}
       </div>
+      {selectedBook && (
+        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+      )}
     </>
   )
 }

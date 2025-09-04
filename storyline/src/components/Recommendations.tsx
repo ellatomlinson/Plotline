@@ -4,10 +4,12 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import 'swiper/swiper-bundle.css'
 import { getRecommendationsFromReadBooks } from '../apiUtils'
+import BookModal from './BookModal'
 
 function Recommendations() {
   const [isLoading, setIsLoading] = useState(true)
   const [bookRecs, setBookRecs] = useState<Book[]>([])
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
   // Fetch the books with a currently reading status
   const fetchData = useCallback(async () => {
@@ -62,8 +64,10 @@ function Recommendations() {
                           objectFit: 'cover',
                           borderRadius: 4,
                           display: 'block',
-                          boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.1)'
+                          boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.1)',
+                          cursor: 'pointer'
                         }}
+                        onClick={() => setSelectedBook(book)}
                       />
                     ) : (
                       <div
@@ -87,6 +91,9 @@ function Recommendations() {
           </div>
         )}
       </div>
+      {selectedBook && (
+        <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
+      )}
     </>
   )
 }
