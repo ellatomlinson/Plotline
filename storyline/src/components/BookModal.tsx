@@ -117,7 +117,12 @@ function BookModal({ book, onClose }: BookModalProps) {
               </p>
             </div>
           </div>
-          <p className='book-modal-description-container'>{description}</p>
+          {description && (
+            <p
+              className='book-modal-description-container'
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          )}
           <button
             className='book-modal-save-button'
             onClick={handleSave}
