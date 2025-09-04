@@ -29,6 +29,7 @@ function SearchResultsModal({
     return null
   }
 
+  // TODO: On paginate, scroll back to the top
   const handleNext = () => {
     const newPage = page + 1
     setPage(newPage)

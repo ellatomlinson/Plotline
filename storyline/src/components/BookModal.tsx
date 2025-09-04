@@ -59,6 +59,7 @@ function BookModal({ book, onClose }: BookModalProps) {
     setIsChanged(false)
   }
 
+  // TODO: Fix save button on scroll
   return (
     <div className='book-modal-backdrop'>
       {loadingStatus ? (

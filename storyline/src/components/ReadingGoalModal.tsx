@@ -8,6 +8,7 @@ interface ReadingGoalModalProps {
   readonly goal: number
 }
 
+// TODO: circle chart can act weird when you surpass your readin goal
 function ReadingGoalModal({
   isOpen,
   onClose,
