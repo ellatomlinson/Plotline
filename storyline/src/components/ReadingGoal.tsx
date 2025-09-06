@@ -44,7 +44,11 @@ function ReadingGoal() {
         ) : (
           <>
             <DonutChart
-              percentage={goal > 0 ? Math.round((booksRead / goal) * 100) : 0}
+              percentage={
+                goal > 0
+                  ? Math.min(Math.round((booksRead / goal) * 100), 100)
+                  : 0
+              }
             />
 
             <p className='reading-goal-progress-text'>

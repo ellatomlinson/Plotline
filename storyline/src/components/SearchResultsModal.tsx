@@ -1,7 +1,7 @@
 import { FaXmark } from 'react-icons/fa6'
 import type { Book, GoogleBooksApiResponse } from '../types'
 import SearchResultsTable from './SearchResultsTable'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import BookModal from './BookModal'
 
@@ -22,6 +22,7 @@ function SearchResultsModal({
 }: SearchResultsModalProps) {
   const [page, setPage] = useState(0)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  const listRef = useRef<HTMLDivElement | null>(null)
 
   const resultsPerPage = 10
 
@@ -29,17 +30,24 @@ function SearchResultsModal({
     return null
   }
 
-  // TODO: On paginate, scroll back to the top
+  const scrollToTop = () => {
+    if (listRef.current) {
+      listRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
   const handleNext = () => {
     const newPage = page + 1
     setPage(newPage)
     onPaginate(newPage * resultsPerPage)
+    scrollToTop()
   }
 
   const handlePrev = () => {
     const newPage = Math.max(0, page - 1)
     setPage(newPage)
     onPaginate(newPage * resultsPerPage)
+    scrollToTop()
   }
 
   return (
@@ -52,6 +60,7 @@ function SearchResultsModal({
         <SearchResultsTable
           results={results}
           setSelectedBook={setSelectedBook}
+          ref={listRef}
         />
         <div
           style={{

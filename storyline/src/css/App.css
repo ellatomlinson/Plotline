@@ -208,7 +208,7 @@
   border-radius: 25px;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* prevent it from scrolling itself */
+  overflow-y: auto;
 }
 
 .prev-button {
@@ -573,6 +573,18 @@
   align-items: center;
   height: 400px;
   width: 100%;
+}
+
+.book-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.book-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
 }
 
 .spinner {

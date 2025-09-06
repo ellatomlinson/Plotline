@@ -59,7 +59,6 @@ function BookModal({ book, onClose }: BookModalProps) {
     setIsChanged(false)
   }
 
-  // TODO: Fix save button on scroll
   return (
     <div className='book-modal-backdrop'>
       {loadingStatus ? (
@@ -71,66 +70,72 @@ function BookModal({ book, onClose }: BookModalProps) {
           <button className='book-modal-close-button' onClick={onClose}>
             <FaXmark />
           </button>
-          <div className='book-modal-info-card-container'>
-            <div className='book-modal-cover-container'>
-              <img
-                src={imageLinks?.thumbnail || 'fallback-image.jpg'}
-                alt={title}
-                className='book-modal-cover'
+
+          <div className='book-modal-content'>
+            <div className='book-modal-info-card-container'>
+              <div className='book-modal-cover-container'>
+                <img
+                  src={imageLinks?.thumbnail || 'fallback-image.jpg'}
+                  alt={title}
+                  className='book-modal-cover'
+                />
+              </div>
+              <div className='book-modal-text'>
+                <h3 className='book-modal-title'>{title}</h3>
+                <h3 className='book-modal-author'>{authors?.join(', ')}</h3>
+                <p className='book-modal-stat-field'>
+                  <span className='book-modal-stat-label'>Genres:</span>{' '}
+                  <span className='book-modal-stat-value'>
+                    {categories?.join(', ')}
+                  </span>
+                </p>
+                <p className='book-modal-stat-field'>
+                  <span className='book-modal-stat-label'>Page Count:</span>{' '}
+                  <span className='book-modal-stat-value'>{pageCount}</span>
+                </p>
+                <p className='book-modal-stat-field'>
+                  <span className='book-modal-stat-label'>Rating:</span>{' '}
+                  <span className='book-modal-stat-value'>
+                    {renderStars(book.volumeInfo.averageRating)}
+                  </span>
+                </p>
+                <p className='book-modal-stat-field'>
+                  <span className='book-modal-stat-label'>Status:</span>{' '}
+                  <select
+                    className='book-modal-dropdown'
+                    value={selectedStatus}
+                    onChange={(e) => {
+                      setSelectedStatus(e.target.value)
+                      setIsChanged(e.target.value !== '')
+                    }}
+                  >
+                    <option value=''>Select Status</option>
+                    <option value='reading_list'>Reading List</option>
+                    <option value='currently_reading'>Currently Reading</option>
+                    <option value='read'>Read</option>
+                    <option value='did_not_finish'>Did Not Finish</option>
+                    <option value='remove'>Remove Book</option>
+                  </select>
+                </p>
+              </div>
+            </div>
+
+            {description && (
+              <p
+                className='book-modal-description-container'
+                dangerouslySetInnerHTML={{ __html: description }}
               />
-            </div>
-            <div className='book-modal-text'>
-              <h3 className='book-modal-title'>{title}</h3>
-              <h3 className='book-modal-author'>{authors?.join(', ')}</h3>
-              <p className='book-modal-stat-field'>
-                <span className='book-modal-stat-label'>Genres:</span>{' '}
-                <span className='book-modal-stat-value'>
-                  {categories?.join(', ')}
-                </span>
-              </p>
-              <p className='book-modal-stat-field'>
-                <span className='book-modal-stat-label'>Page Count:</span>{' '}
-                <span className='book-modal-stat-value'>{pageCount}</span>
-              </p>
-              <p className='book-modal-stat-field'>
-                <span className='book-modal-stat-label'>Rating:</span>{' '}
-                <span className='book-modal-stat-value'>
-                  {renderStars(book.volumeInfo.averageRating)}
-                </span>
-              </p>
-              <p className='book-modal-stat-field'>
-                <span className='book-modal-stat-label'>Status:</span>{' '}
-                <select
-                  className='book-modal-dropdown'
-                  value={selectedStatus}
-                  onChange={(e) => {
-                    setSelectedStatus(e.target.value)
-                    setIsChanged(e.target.value !== '')
-                  }}
-                >
-                  <option value=''>Select Status</option>
-                  <option value='reading_list'>Reading List</option>
-                  <option value='currently_reading'>Currently Reading</option>
-                  <option value='read'>Read</option>
-                  <option value='did_not_finish'>Did Not Finish</option>
-                  <option value='remove'>Remove Book</option>
-                </select>
-              </p>
-            </div>
+            )}
           </div>
-          {description && (
-            <p
-              className='book-modal-description-container'
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
-          )}
-          <button
-            className='book-modal-save-button'
-            onClick={handleSave}
-            disabled={!isChanged}
-          >
-            Save
-          </button>
+          <div className='book-modal-actions'>
+            <button
+              className='book-modal-save-button'
+              onClick={handleSave}
+              disabled={!isChanged}
+            >
+              Save
+            </button>
+          </div>
         </div>
       )}
     </div>
