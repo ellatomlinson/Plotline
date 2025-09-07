@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  CartesianGrid,
   ResponsiveContainer
 } from 'recharts'
 
@@ -38,7 +37,6 @@ function Stats() {
             <h3 className='monthly-reading-text'>Books Read Per Month</h3>
             <ResponsiveContainer width='100%' height={300}>
               <LineChart data={data}>
-                <CartesianGrid strokeDasharray='3 3' />
                 <XAxis dataKey='month' />
                 <YAxis />
                 <Tooltip />
