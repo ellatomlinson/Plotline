@@ -1,6 +1,6 @@
 import { supabase } from '../supabase'
 import { getBookById } from './apiUtils'
-import type { Book, ReadingStatus } from './types'
+import type { Book, BooksReadPerMonth, ReadingStatus } from './types'
 
 // Fetch user's reading goal
 export async function getReadingGoal(): Promise<number | null> {
@@ -233,4 +233,29 @@ export async function getReadingListBooks(): Promise<Book[]> {
         result.status === 'fulfilled'
     )
     .map((result) => result.value)
+}
+
+// Fetch books read for each month in the last 12 months
+export async function getBooksReadLast12Months(): Promise<BooksReadPerMonth[]> {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser()
+  if (!user) {
+    console.error('User not logged in.', authError)
+    return []
+  }
+
+  const { data, error } = await supabase.rpc('books_read_last_12_months')
+
+  if (error) {
+    console.error('Error fetching books read per month:', error.message)
+    return []
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (data ?? []).map((row: any) => ({
+    month: row.month, // e.g. "2025-08"
+    books_read: row.books_read ?? 0
+  }))
 }

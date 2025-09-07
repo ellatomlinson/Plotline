@@ -2,11 +2,12 @@ import '../css/App.css'
 import logo from '../assets/logo.png'
 import { FaArrowRight } from 'react-icons/fa'
 import { FaChartSimple } from 'react-icons/fa6'
+import { FaHouse } from 'react-icons/fa6'
 import { useState } from 'react'
 import SearchResultsModal from './SearchResultsModal'
 import type { GoogleBooksApiResponse } from '../types'
 import { supabase } from '../../supabase'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const FIRST = 0
 
@@ -16,6 +17,9 @@ const Header = () => {
     useState<boolean>(false)
   const [books, setBooks] = useState<GoogleBooksApiResponse>()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const isOnDashboard = location.pathname === '/dashboard'
 
   function onSearchResultsModalClose(): void {
     setSearchResultsModalOpen(false)
@@ -56,10 +60,6 @@ const Header = () => {
     }
   }
 
-  const navigateToStats = async () => {
-    navigate('/statistics')
-  }
-
   return (
     <>
       <header className='header'>
@@ -83,12 +83,21 @@ const Header = () => {
         </div>
 
         <div className='header-section'>
-          <button
-            className='statistics-button'
-            onClick={() => navigateToStats()}
-          >
-            <FaChartSimple style={{ fontSize: '1rem' }} />
-          </button>
+          {isOnDashboard ? (
+            <button
+              className='statistics-button'
+              onClick={() => navigate('/statistics')}
+            >
+              <FaChartSimple />
+            </button>
+          ) : (
+            <button
+              className='statistics-button'
+              onClick={() => navigate('/dashboard')}
+            >
+              <FaHouse />
+            </button>
+          )}
           <button className='sign-out-button' onClick={() => handleSignOut()}>
             Sign Out
           </button>

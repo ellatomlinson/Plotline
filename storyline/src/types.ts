@@ -45,3 +45,8 @@ export type DbBook = {
   status: ReadingStatus
   user_id: string
 }
+
+export interface BooksReadPerMonth {
+  month: string
+  books_read: number
+}
