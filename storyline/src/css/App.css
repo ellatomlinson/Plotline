@@ -39,6 +39,27 @@
 .sign-out-button {
   padding: 0.5rem 1.5rem;
 }
+.statistics-button {
+  background: #000;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.75rem;
+  position: absolute;
+  right: 10rem;
+}
+.statistics-button:focus,
+.statistics-button:hover {
+  border: 1px solid #000;
+  background-color: #ffffff;
+  color: #1e1e1e;
+}
 
 /* Search bar + button */
 .search-bar {

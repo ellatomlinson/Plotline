@@ -1,6 +1,7 @@
 import '../css/App.css'
 import logo from '../assets/logo.png'
 import { FaArrowRight } from 'react-icons/fa'
+import { FaChartSimple } from 'react-icons/fa6'
 import { useState } from 'react'
 import SearchResultsModal from './SearchResultsModal'
 import type { GoogleBooksApiResponse } from '../types'
@@ -55,6 +56,10 @@ const Header = () => {
     }
   }
 
+  const navigateToStats = async () => {
+    navigate('/statistics')
+  }
+
   return (
     <>
       <header className='header'>
@@ -78,6 +83,12 @@ const Header = () => {
         </div>
 
         <div className='header-section'>
+          <button
+            className='statistics-button'
+            onClick={() => navigateToStats()}
+          >
+            <FaChartSimple style={{ fontSize: '1rem' }} />
+          </button>
           <button className='sign-out-button' onClick={() => handleSignOut()}>
             Sign Out
           </button>
