@@ -8,7 +8,7 @@ npm run dev
 ##
 
 <p align="center">
-PlotLine is a minimalist web app designed to help you track and explore your reading habits!
+Plotline is a minimalist web app designed to help you track and explore your reading habits!
 </p>
 
 <p align="center">
