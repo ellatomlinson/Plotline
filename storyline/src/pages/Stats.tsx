@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getAverageBookLength, getBooksReadLast12Months } from '../dbUtils'
+import { getAverageBookLength, getBooksReadLast12Months, getReadBooks } from '../dbUtils'
 import type { BooksReadPerMonth } from '../types'
 import {
   LineChart,
@@ -12,13 +12,13 @@ import {
 } from 'recharts'
 
 // charts to add:
-// Average book length
 // Books read all time
 // Top 3 genres
 function Stats() {
   const [data, setData] = useState<BooksReadPerMonth[]>([])
   const [avgLength, setAvgLength] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [booksRead, setBooksRead] = useState<number | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +29,9 @@ function Stats() {
 
         const avg = await getAverageBookLength()
         setAvgLength(avg)
+
+        const booksReadList = await getReadBooks()
+        setBooksRead(booksReadList.length)
       } finally {
         setIsLoading(false)
       }
@@ -48,6 +51,16 @@ function Stats() {
             ) : (
               <p className='average-page-count-value'>
                 {avgLength === null ? 'Loading...' : `${avgLength} pages`}
+              </p>
+            )}
+          </div>
+          <div className='average-page-count-container'>
+            <h3 className='average-page-count-text'>Total Books Read</h3>
+            {isLoading ? (
+              <div className='spinner' />
+            ) : (
+              <p className='average-page-count-value'>
+                {avgLength === null ? 'Loading...' : `${booksRead}`}
               </p>
             )}
           </div>
