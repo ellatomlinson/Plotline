@@ -938,7 +938,6 @@
 .average-page-count-text {
   font-size: 1.15rem;
   font-weight: 25;
-  margin-bottom: -0.5rem;
 }
 
 .average-page-count-value {
@@ -969,7 +968,6 @@
 .book-count-text {
   font-size: 1.15rem;
   font-weight: 25;
-  margin-bottom: -0.5rem;
 }
 
 .book-count-value {
@@ -1000,7 +998,6 @@
 .top-genres-text {
   font-size: 1.15rem;
   font-weight: 25;
-  margin-bottom: -0.5rem;
 }
 
 .top-genres-value {
