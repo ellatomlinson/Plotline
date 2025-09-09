@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getAverageBookLength, getBooksReadLast12Months, getReadBooks } from '../dbUtils'
+import {
+  getAverageBookLength,
+  getBooksReadLast12Months,
+  getReadBooks
+} from '../dbUtils'
 import type { BooksReadPerMonth } from '../types'
 import {
   LineChart,
@@ -11,9 +15,9 @@ import {
   ResponsiveContainer
 } from 'recharts'
 
-// charts to add:
-// Books read all time
+// TODO: charts to add:
 // Top 3 genres
+// TODO: On click, open modal to review all previously read books
 function Stats() {
   const [data, setData] = useState<BooksReadPerMonth[]>([])
   const [avgLength, setAvgLength] = useState<number | null>(null)
