@@ -294,3 +294,40 @@ export async function getAverageBookLength(): Promise<number | null> {
 
   return Math.round(avg)
 }
+
+// Fetch top 3 genres from books the user has read
+export async function getTopGenres(limit = 3): Promise<string[]> {
+  const readBooks = await getReadBooks()
+  if (!readBooks || readBooks.length === 0) return []
+
+  // Get book details
+  const bookIds = readBooks.map((entry) => entry.google_book_id).filter(Boolean)
+  const results = await Promise.allSettled(bookIds.map(getBookById))
+
+  const books: Book[] = results
+    .filter(
+      (result): result is PromiseFulfilledResult<Book> =>
+        result.status === 'fulfilled'
+    )
+    .map((result) => result.value)
+
+  // Count categories
+  const genreCount: Record<string, number> = {}
+
+  for (const book of books) {
+    const categories = book.volumeInfo.categories ?? []
+    for (const cat of categories) {
+      // Split on "/" and trim
+      const parts = cat.split('/').map((c) => c.trim())
+      for (const genre of parts) {
+        genreCount[genre] = (genreCount[genre] || 0) + 1
+      }
+    }
+  }
+
+  // Sort by frequency
+  const sorted = Object.entries(genreCount).sort((a, b) => b[1] - a[1])
+
+  // Return top N genres
+  return sorted.slice(0, limit).map(([genre]) => genre)
+}

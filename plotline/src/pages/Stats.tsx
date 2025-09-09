@@ -3,7 +3,8 @@ import Header from '../components/Header'
 import {
   getAverageBookLength,
   getBooksReadLast12Months,
-  getReadBooks
+  getReadBooks,
+  getTopGenres
 } from '../dbUtils'
 import type { BooksReadPerMonth } from '../types'
 import {
@@ -15,14 +16,13 @@ import {
   ResponsiveContainer
 } from 'recharts'
 
-// TODO: charts to add:
-// Top 3 genres
 // TODO: On click, open modal to review all previously read books
 function Stats() {
   const [data, setData] = useState<BooksReadPerMonth[]>([])
   const [avgLength, setAvgLength] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [booksRead, setBooksRead] = useState<number | null>(null)
+  const [topGenres, setTopGenres] = useState<string[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +36,9 @@ function Stats() {
 
         const booksReadList = await getReadBooks()
         setBooksRead(booksReadList.length)
+
+        const genres = await getTopGenres()
+        setTopGenres(genres)
       } finally {
         setIsLoading(false)
       }
@@ -69,12 +72,12 @@ function Stats() {
             )}
           </div>
           <div className='top-genres-container'>
-            <h3 className='top-genres-text'>Top 3 Genres</h3>
+            <h3 className='top-genres-text'>Top Genres</h3>
             {isLoading ? (
               <div className='spinner' />
             ) : (
               <p className='top-genres-value'>
-                Fantasy, Action, Thriller
+                {topGenres.length > 0 ? topGenres.join(', ') : 'No genres yet'}
               </p>
             )}
           </div>
