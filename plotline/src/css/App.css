@@ -919,7 +919,7 @@
   border: 1px solid rgb(209, 209, 214);
   border-radius: 25px;
   width: 27%;
-  height: 45%;
+  min-height: 60%;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   background-color: #ffffff;
@@ -936,3 +936,66 @@
   font-size: 2rem;
   font-weight: 600;
 }
+
+/* All time book count tile */
+.book-count-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 25px;
+  width: 27%;
+  min-height: 60%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.book-count-text {
+  font-size: 1.15rem;
+  font-weight: 25;
+  margin-bottom: -0.5rem;
+}
+
+.book-count-value {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* Top 3 genres tile */
+.top-genres-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: 1px solid rgb(209, 209, 214);
+  border-radius: 25px;
+  width: 27%;
+  min-height: 60%;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.top-genres-text {
+  font-size: 1.15rem;
+  font-weight: 25;
+  margin-bottom: -0.5rem;
+}
+
+.top-genres-value {
+  font-size: 2rem;
+  font-weight: 600;
+}
+

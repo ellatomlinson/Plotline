@@ -58,13 +58,23 @@ function Stats() {
               </p>
             )}
           </div>
-          <div className='average-page-count-container'>
-            <h3 className='average-page-count-text'>Total Books Read</h3>
+          <div className='book-count-container'>
+            <h3 className='book-count-text'>Total Books Read</h3>
             {isLoading ? (
               <div className='spinner' />
             ) : (
-              <p className='average-page-count-value'>
+              <p className='book-count-value'>
                 {avgLength === null ? 'Loading...' : `${booksRead}`}
+              </p>
+            )}
+          </div>
+          <div className='top-genres-container'>
+            <h3 className='top-genres-text'>Top 3 Genres</h3>
+            {isLoading ? (
+              <div className='spinner' />
+            ) : (
+              <p className='top-genres-value'>
+                Fantasy, Action, Thriller
               </p>
             )}
           </div>
