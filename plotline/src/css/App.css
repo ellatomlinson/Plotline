@@ -667,7 +667,7 @@
   border: 1px solid rgb(209, 209, 214);
   border-radius: 25px;
   width: 27%;
-  height: 45%;
+  min-height: 45%;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   background-color: #ffffff;
@@ -816,7 +816,7 @@
   border: 1px solid rgb(209, 209, 214);
   border-radius: 25px;
   width: 27%;
-  height: 45%;
+  min-height: 45%;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   background-color: #ffffff;
