@@ -259,3 +259,38 @@ export async function getBooksReadLast12Months(): Promise<BooksReadPerMonth[]> {
     books_read: row.books_read ?? 0
   }))
 }
+
+// Calculate average book length of all read books (pages)
+export async function getAverageBookLength(): Promise<number | null> {
+  // Step 1: Get all read book IDs
+  const data = await getReadBooks()
+
+  if (!data || data.length === 0) {
+    return 0 // no books read yet
+  }
+
+  // Step 2: Fetch book details (pageCount) from Google Books API
+  const bookIds = data.map((entry) => entry.google_book_id).filter(Boolean)
+  const results = await Promise.allSettled(bookIds.map(getBookById))
+
+  const books: Book[] = results
+    .filter(
+      (result): result is PromiseFulfilledResult<Book> =>
+        result.status === 'fulfilled'
+    )
+    .map((result) => result.value)
+
+  const pageCounts = books
+    .map((book) => book.volumeInfo.pageCount ?? 0)
+    .filter((count) => count > 0)
+
+  if (pageCounts.length === 0) {
+    return 0
+  }
+
+  // Step 3: Compute average
+  const avg =
+    pageCounts.reduce((sum, count) => sum + count, 0) / pageCounts.length
+
+  return Math.round(avg)
+}
