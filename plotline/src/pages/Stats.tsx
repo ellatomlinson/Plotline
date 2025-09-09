@@ -96,7 +96,7 @@ function Stats() {
                   type='monotone'
                   dataKey='books_read'
                   stroke='#000000'
-                  strokeWidth={2}
+                  strokeWidth={3}
                   name='Books Read'
                 />
               </LineChart>
