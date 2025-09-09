@@ -1,5 +1,5 @@
 import '../css/App.css'
-import logo from '../assets/logo.png'
+import logo from '../assets/invertlogo.png'
 import { FaArrowRight } from 'react-icons/fa'
 import { FaChartSimple } from 'react-icons/fa6'
 import { FaHouse } from 'react-icons/fa6'

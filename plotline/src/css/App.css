@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background-color: #ffffff;
+  background-color: #000;
   border-bottom: 1px solid rgb(209, 209, 214);
   position: sticky;
   top: 0;
@@ -38,12 +38,21 @@
 
 .sign-out-button {
   padding: 0.5rem 1.5rem;
+  background: #fff;
+  color: #000;
 }
+.sign-out-button:focus,
+.sign-out-button:hover {
+  border: 1px solid #fff;
+  background-color: #000;
+  color: #fff;
+}
+
 .statistics-button {
-  background: #000;
+  background: #fff;
   border: none;
   cursor: pointer;
-  color: #ffffff;
+  color: #000;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -56,9 +65,9 @@
 }
 .statistics-button:focus,
 .statistics-button:hover {
-  border: 1px solid #000;
-  background-color: #ffffff;
-  color: #1e1e1e;
+  border: 1px solid #fff;
+  background-color: #000;
+  color: #fff;
 }
 
 /* Search bar + button */
@@ -92,7 +101,7 @@
   height: 2.5rem;
   font-size: 0.75rem;
   position: absolute;
-  right: 0rem;
+  right: 0.1rem;
   top: 50%;
   transform: translateY(-50%);
 }
