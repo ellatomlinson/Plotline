@@ -136,7 +136,7 @@ export async function getBookStatus(bookId: string): Promise<string | null> {
 }
 
 // Fetch all the books marked as read by the user
-export async function getReadBooks() {
+export async function getReadBooks(): Promise<Book[]> {
   const {
     data: { user },
     error: authError
@@ -149,7 +149,7 @@ export async function getReadBooks() {
 
   const { data, error } = await supabase
     .from('reading_status')
-    .select('*')
+    .select('google_book_id')
     .eq('user_id', user.id)
     .eq('status', 'read')
 
@@ -158,7 +158,15 @@ export async function getReadBooks() {
     return []
   }
 
-  return data
+  const bookIds = data.map((entry) => entry.google_book_id).filter(Boolean)
+  const books = await Promise.allSettled(bookIds.map(getBookById))
+
+  return books
+    .filter(
+      (result): result is PromiseFulfilledResult<Book> =>
+        result.status === 'fulfilled'
+    )
+    .map((result) => result.value)
 }
 
 // Fetch all the books marked as currently_reading by the user
@@ -270,7 +278,7 @@ export async function getAverageBookLength(): Promise<number | null> {
   }
 
   // Step 2: Fetch book details (pageCount) from Google Books API
-  const bookIds = data.map((entry) => entry.google_book_id).filter(Boolean)
+  const bookIds = data.map((entry) => entry.id).filter(Boolean)
   const results = await Promise.allSettled(bookIds.map(getBookById))
 
   const books: Book[] = results
@@ -301,7 +309,7 @@ export async function getTopGenres(limit = 3): Promise<string[]> {
   if (!readBooks || readBooks.length === 0) return []
 
   // Get book details
-  const bookIds = readBooks.map((entry) => entry.google_book_id).filter(Boolean)
+  const bookIds = readBooks.map((entry) => entry.id).filter(Boolean)
   const results = await Promise.allSettled(bookIds.map(getBookById))
 
   const books: Book[] = results

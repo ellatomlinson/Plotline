@@ -15,6 +15,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts'
+import ReadBooksModal from '../components/ReadBooksModal'
 
 // TODO: On click, open modal to review all previously read books
 function Stats() {
@@ -23,6 +24,7 @@ function Stats() {
   const [isLoading, setIsLoading] = useState(true)
   const [booksRead, setBooksRead] = useState<number | null>(null)
   const [topGenres, setTopGenres] = useState<string[]>([])
+  const [readBooksModalOpen, setReadBooksModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +63,11 @@ function Stats() {
               </p>
             )}
           </div>
-          <div className='book-count-container'>
+          <div
+            className='book-count-container'
+            onClick={() => setReadBooksModalOpen(true)}
+            style={{ cursor: 'pointer' }}
+          >
             <h3 className='book-count-text'>Total Books Read</h3>
             {isLoading ? (
               <div className='spinner' />
@@ -104,6 +110,12 @@ function Stats() {
           )}
         </div>
       </div>
+      {readBooksModalOpen && (
+        <ReadBooksModal
+          isOpen={readBooksModalOpen}
+          onClose={() => setReadBooksModalOpen(false)}
+        />
+      )}
     </>
   )
 }
