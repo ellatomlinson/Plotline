@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import {
   getAverageBookLength,
   getBooksReadLast12Months,
-  getReadBooks,
+  getReadBooksCount,
   getTopGenres
 } from '../dbUtils'
 import type { BooksReadPerMonth } from '../types'
@@ -36,8 +36,8 @@ function Stats() {
         const avg = await getAverageBookLength()
         setAvgLength(avg)
 
-        const booksReadList = await getReadBooks()
-        setBooksRead(booksReadList.length)
+        const booksReadCount = await getReadBooksCount()
+        setBooksRead(booksReadCount)
 
         const genres = await getTopGenres()
         setTopGenres(genres)

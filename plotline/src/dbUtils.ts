@@ -169,6 +169,31 @@ export async function getReadBooks(): Promise<Book[]> {
     .map((result) => result.value)
 }
 
+export async function getReadBooksCount(): Promise<number> {
+  const {
+    data: { user },
+    error: authError
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('User not logged in.', authError)
+    return 0
+  }
+
+  const { data, error } = await supabase
+    .from('reading_status')
+    .select('id', { count: 'exact' })
+    .eq('user_id', user.id)
+    .eq('status', 'read')
+
+  if (error) {
+    console.error('Error fetching read books:', error.message)
+    return 0
+  }
+
+  return data?.length ?? 0
+}
+
 // Fetch all the books marked as currently_reading by the user
 export async function getCurrentlyReadingBooks(): Promise<Book[]> {
   const {
