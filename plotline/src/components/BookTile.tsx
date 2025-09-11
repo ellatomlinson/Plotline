@@ -1,5 +1,4 @@
 import type { Book } from '../types'
-import { processDescription } from '../utils'
 
 interface BookTileProps {
   readonly book: Book
@@ -20,9 +19,10 @@ function BookTile({ book, onClick }: BookTileProps) {
       <div className='book-text'>
         <h3 className='book-title'>{title}</h3>
         <p className='book-author'>{authors?.join(', ')}</p>
-        <p className='book-description'>
-          {processDescription(description ?? '')}
-        </p>
+        <p
+          className='book-description'
+          dangerouslySetInnerHTML={{ __html: description ?? '' }}
+        />
       </div>
     </div>
   )
