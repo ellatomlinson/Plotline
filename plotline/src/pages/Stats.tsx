@@ -17,7 +17,6 @@ import {
 } from 'recharts'
 import ReadBooksModal from '../components/ReadBooksModal'
 
-// TODO: On click, open modal to review all previously read books
 function Stats() {
   const [data, setData] = useState<BooksReadPerMonth[]>([])
   const [avgLength, setAvgLength] = useState<number | null>(null)

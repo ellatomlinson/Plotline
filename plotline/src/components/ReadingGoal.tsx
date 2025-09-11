@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import ReadingGoalModal from './ReadingGoalModal'
-import { getReadBooks, getReadingGoal } from '../dbUtils'
+import { getReadBooksCount, getReadingGoal } from '../dbUtils'
 import DonutChart from './DonutChart'
 
 function ReadingGoal() {
@@ -13,11 +13,11 @@ function ReadingGoal() {
   const fetchData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const [books, goalFromDb] = await Promise.all([
-        getReadBooks(),
+      const [booksCount, goalFromDb] = await Promise.all([
+        getReadBooksCount(),
         getReadingGoal()
       ])
-      setBooksRead(books.length)
+      setBooksRead(booksCount)
       if (goalFromDb !== null) {
         setGoal(goalFromDb)
       }

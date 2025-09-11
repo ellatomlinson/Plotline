@@ -46,7 +46,7 @@ export async function getRecommendationsFromReadBooks(): Promise<Book[]> {
   const readBooks = await getReadBooks()
 
   const fullBooks = await Promise.allSettled(
-    readBooks.map((entry) => getBookById(entry.google_book_id))
+    readBooks.map((entry) => getBookById(entry.id))
   )
 
   const books = fullBooks
