@@ -1,7 +1,7 @@
 import { FaXmark } from 'react-icons/fa6'
 import type { Book, GoogleBooksApiResponse } from '../types'
 import SearchResultsTable from './SearchResultsTable'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import BookModal from './BookModal'
 
@@ -22,9 +22,14 @@ function SearchResultsModal({
 }: SearchResultsModalProps) {
   const [page, setPage] = useState(0)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+  const [loadingStatus, setLoadingStatus] = useState(true)
   const listRef = useRef<HTMLDivElement | null>(null)
 
   const resultsPerPage = 10
+
+  useEffect(() => {
+    setLoadingStatus(false)
+  }, [results])
 
   if (!isOpen) {
     return null
@@ -39,6 +44,7 @@ function SearchResultsModal({
   const handleNext = () => {
     const newPage = page + 1
     setPage(newPage)
+    setLoadingStatus(true)
     onPaginate(newPage * resultsPerPage)
     scrollToTop()
   }
@@ -46,6 +52,7 @@ function SearchResultsModal({
   const handlePrev = () => {
     const newPage = Math.max(0, page - 1)
     setPage(newPage)
+    setLoadingStatus(true)
     onPaginate(newPage * resultsPerPage)
     scrollToTop()
   }
@@ -57,33 +64,41 @@ function SearchResultsModal({
         <button className='close-button' onClick={onClose}>
           <FaXmark />
         </button>
-        <SearchResultsTable
-          results={results}
-          setSelectedBook={setSelectedBook}
-          ref={listRef}
-        />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '1rem'
-          }}
-        >
-          <button
-            className='prev-button'
-            onClick={handlePrev}
-            disabled={page === 0}
-          >
-            <FaChevronLeft style={{ paddingTop: '0.3rem' }} />
-          </button>
-          <button
-            className='next-button'
-            onClick={handleNext}
-            disabled={results.totalItems <= (page + 1) * resultsPerPage}
-          >
-            <FaChevronRight style={{ paddingTop: '0.3rem' }} />
-          </button>
-        </div>
+        {loadingStatus ? (
+          <div className='book-modal-spinner-overlay'>
+            <div className='spinner'></div>
+          </div>
+        ) : (
+          <>
+            <SearchResultsTable
+              results={results}
+              setSelectedBook={setSelectedBook}
+              ref={listRef}
+            />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '1rem'
+              }}
+            >
+              <button
+                className='prev-button'
+                onClick={handlePrev}
+                disabled={page === 0}
+              >
+                <FaChevronLeft style={{ paddingTop: '0.3rem' }} />
+              </button>
+              <button
+                className='next-button'
+                onClick={handleNext}
+                disabled={results.totalItems <= (page + 1) * resultsPerPage}
+              >
+                <FaChevronRight style={{ paddingTop: '0.3rem' }} />
+              </button>
+            </div>
+          </>
+        )}
       </div>
       {selectedBook && (
         <BookModal book={selectedBook} onClose={() => setSelectedBook(null)} />
