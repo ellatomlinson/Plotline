@@ -1,15 +1,51 @@
+import { supabase } from '../supabase'
 import { getReadBooks } from './dbUtils'
 import type { Book, GoogleBooksApiResponse } from './types'
 
+const STALE_AFTER_DAYS = 30
+
 export async function getBookById(bookId: string): Promise<Book> {
+  // Step 1: Try Supabase
+  const { data: existing, error } = await supabase
+    .from('books')
+    .select('data, updated_at')
+    .eq('id', bookId)
+    .single()
+
+  if (error) {
+    console.error('Failed to save book in cache:', error.message)
+  }
+  if (existing) {
+    const updatedAt = new Date(existing.updated_at)
+    const isStale =
+      Date.now() - updatedAt.getTime() > STALE_AFTER_DAYS * 24 * 60 * 60 * 1000
+
+    if (!isStale) {
+      return existing.data as Book
+    }
+  }
+
+  // Step 2: Fetch from Google
   const response = await fetch(
     `https://www.googleapis.com/books/v1/volumes/${bookId}`
   )
   if (!response.ok) {
     throw new Error(`Failed to fetch book with ID ${bookId}`)
   }
-  const data = await response.json()
-  return data
+  const bookData = await response.json()
+
+  // Step 3: Upsert into Supabase
+  const { error: upsertError } = await supabase.from('books').upsert({
+    id: bookId,
+    data: bookData,
+    updated_at: new Date().toISOString()
+  })
+
+  if (upsertError) {
+    console.error('Failed to save book in cache:', upsertError.message)
+  }
+
+  return bookData
 }
 
 async function getSimilarBooks(book: Book, maxResults = 3): Promise<Book[]> {
