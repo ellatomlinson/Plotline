@@ -43,7 +43,19 @@ View your current reads, reading goals, personalized book recommendations, and d
 
 ### 👀 Demo
 
-... TBD
+See demo video [here](https://drive.google.com/file/d/1L4eoy_lDdAbR0EFsgAqLrIWEapHOizth/view?usp=sharing)
+
+**Login screen:**
+
+<img width="746.5" height="433" alt="image" src="https://github.com/user-attachments/assets/b7339b66-e2ec-46cd-910b-9c3776b09f17" />
+
+**Dashboard:**
+
+<img width="744.5" height="432.5" alt="image" src="https://github.com/user-attachments/assets/8200a4c1-8861-4f68-bbab-c6c2f7f560d1" />
+
+**Statistics Page:**
+
+<img width="748.5" height="433" alt="image" src="https://github.com/user-attachments/assets/7dbe1007-2f21-4759-8818-c86ccaed8884" />
 
 ### 🧩 Future Roadmap
 
